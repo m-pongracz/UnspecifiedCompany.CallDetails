@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.ComponentModel.DataAnnotations;
+using FluentAssertions;
 using Giacom.CallDetails.CsvGenerator;
 using Giacom.CallDetails.WebApi.Client;
 using Xunit.Abstractions;
@@ -84,10 +85,10 @@ public class CallDetailsWebApiTests : IntegrationTestsBase
 
         // Act
         var result = await WebApiClient.CountAndDurationAsync(new DateTimeOffset(new DateTime(2000, 1, 1)),
-            new DateTimeOffset(new DateTime(2000, 1, 1)), WebApi.Client.CallType._1);
+            new DateTimeOffset(new DateTime(2000, 1, 2)), WebApi.Client.CallType._1);
 
         result.TotalDuration.Should().Be(2, "that is the sum of durations of domestic records");
-        result.Count.Should().Be(3, "that is the count of domestic records");
+        result.Count.Should().Be(2, "that is the count of domestic records");
     }
 
     
@@ -103,7 +104,7 @@ public class CallDetailsWebApiTests : IntegrationTestsBase
             new DateTimeOffset(new DateTime(2000, 2, 1)));
 
         // Assert
-        await assertTask.Should().ThrowAsync<ApiException>("period is larger than 30 days"); // TODO status code should be asserted instead
+        await assertTask.Should().ThrowAsync<ValidationException>("period is larger than 30 days"); // TODO status code should be asserted instead
     }   
     
     [Fact]
@@ -118,7 +119,7 @@ public class CallDetailsWebApiTests : IntegrationTestsBase
             new DateTimeOffset(new DateTime(2000, 1, 1)));
 
         // Assert
-        await assertTask.Should().ThrowAsync<ApiException>("period is negative"); // TODO status code should be asserted instead
+        await assertTask.Should().ThrowAsync<ValidationException>("period is negative"); // TODO status code should be asserted instead
     }
 
     private static void AssertCallDetailDto(CallDetailRecordDto asserted, WebApi.Dtos.CallDetailRecordDto expected)

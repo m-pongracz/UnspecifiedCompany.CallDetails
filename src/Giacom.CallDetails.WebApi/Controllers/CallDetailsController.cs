@@ -40,9 +40,11 @@ public class CallDetailsController : ControllerBase
     [HttpGet]
     [Route("count-and-duration")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public Task<ActionResult<CallDetailCountAndDurationDto>> GetCountAndDuration([FromQuery] DateTime from,
+    public async Task<ActionResult<CallDetailCountAndDurationDto>> GetCountAndDuration([FromQuery] DateTime from,
         [FromQuery] DateTime to, [FromQuery] CallType? type)
     {
-        throw new NotImplementedException();
+        var countAndDuration = await _callDetailService.GetCountAndDurationAsync(DateOnly.FromDateTime(from),
+                DateOnly.FromDateTime(to), type);
+        return Ok(new CallDetailCountAndDurationDto(countAndDuration));
     }
 }

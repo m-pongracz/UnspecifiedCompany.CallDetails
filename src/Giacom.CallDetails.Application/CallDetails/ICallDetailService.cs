@@ -9,4 +9,6 @@ public interface ICallDetailService
     Task BulkInsertAsync<TData>(IEnumerable<TData> records, Func<TData, CallDetail> getCallDetail);
     
     Task<CallDetail> FindAsync(string reference);
+    
+    Task<CountAndDurationResult> GetCountAndDurationAsync(DateOnly from, DateOnly to, CallType? type);
 }

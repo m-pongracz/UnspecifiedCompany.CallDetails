@@ -39,4 +39,9 @@ public class CallDetailService : ICallDetailService
 
         return res;
     }
+    
+    public Task<CountAndDurationResult> GetCountAndDurationAsync(DateOnly from, DateOnly to, CallType? type)
+    {
+        return _callDetailRepository.GetCountAndDurationAsync(from, to, type);
+    }
 }

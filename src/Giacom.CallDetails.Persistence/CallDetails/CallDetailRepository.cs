@@ -38,4 +38,19 @@ public class CallDetailRepository : EfRepositoryBase<string, CallDetail>, ICallD
     {
         return Entities.SingleOrDefaultAsync(new GetByReferenceQuery(reference).Create());
     }
+    
+    public async Task<CountAndDurationResult> GetCountAndDurationAsync(DateOnly from, DateOnly to, CallType? type)
+    {
+        var query = Entities.Where(new AllInPeriodQuery(type, from, to).Create());
+        
+        var res = await query
+            .GroupBy(_ => 1, (_, rows) => new 
+            {
+                Count = rows.Count(),
+                Duration = rows.Sum(x => x.Duration)
+            })
+            .SingleAsync();
+
+        return new CountAndDurationResult(res.Count, res.Duration);
+    }
 }

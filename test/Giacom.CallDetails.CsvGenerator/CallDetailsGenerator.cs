@@ -25,7 +25,7 @@ public static class CallDetailsGenerator
             Duration = request?.Duration ?? duration,
             Cost = request?.Cost ?? (decimal)Random.NextDouble(),
             Currency = Random.NextBool() ? "GBP" : "USD",
-            CallType = Random.NextBool() ? CallType.Domestic : CallType.International
+            CallType = request?.CallType ?? (Random.NextBool() ? CallType.Domestic : CallType.International)
         };
     }
     
