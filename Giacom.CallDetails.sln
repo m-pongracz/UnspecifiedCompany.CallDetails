@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.WebApi", "src\Giacom.CallDetails.WebApi\Giacom.CallDetails.WebApi.csproj", "{093CE170-42BB-461D-AF26-0205C06469B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6D44F1C5-6DEE-426E-912C-CED377E53831}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D4E18E36-6158-41E0-AFDC-C3185D663A78}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{093CE170-42BB-461D-AF26-0205C06469B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093CE170-42BB-461D-AF26-0205C06469B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093CE170-42BB-461D-AF26-0205C06469B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093CE170-42BB-461D-AF26-0205C06469B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{093CE170-42BB-461D-AF26-0205C06469B6} = {6D44F1C5-6DEE-426E-912C-CED377E53831}
+	EndGlobalSection
+EndGlobal
