@@ -1,4 +1,5 @@
 using Giacom.CallDetails.Application.CallDetails;
+using Giacom.CallDetails.Domain.CallDetails;
 using Giacom.CallDetails.WebApi.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,5 +35,14 @@ public class CallDetailsController : ControllerBase
     {
         var callDetail = await _callDetailService.FindAsync(reference);
         return Ok(new CallDetailRecordDto(callDetail));
+    }
+    
+    [HttpGet]
+    [Route("count-and-duration")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public Task<ActionResult<CallDetailCountAndDurationDto>> GetCountAndDuration([FromQuery] DateTime from,
+        [FromQuery] DateTime to, [FromQuery] CallType? type)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -8,37 +8,42 @@ namespace Giacom.CallDetails.CsvGenerator;
 
 public static class CallDetailsGenerator
 {
-    public static IEnumerable<CallDetailRecordDto> GenerateRows(GeneratorRequest request)
+    private static readonly Random Random = new ();
+    
+    public static CallDetailRecordDto GenerateRow(GeneratorRequest? request = null)
     {
-        var random = new Random();
-        
-        for (var i = 0; i < request.Rows; i++)
+        var duration = Random.Next(1, 1000);
+        var callDate = request?.CallDate ?? DateTime.UtcNow.AddDays(-Random.Next(1, 1000));
+
+        return new CallDetailRecordDto()
         {
-            var duration = random.Next(1, 1000);
-            var callDate = DateTime.UtcNow.AddDays(-random.Next(1, 1000));
-            
-            yield return new CallDetailRecordDto()
-            {
-                Reference = Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
-                CallerId = request.CallerId ?? random.NextInt64().ToString(),
-                Recipient = random.NextInt64().ToString(),
-                CallDate = callDate,
-                EndTime = callDate.AddSeconds(duration).ToString("HH:mm:ss"),
-                Duration = duration,
-                Cost = (decimal)random.NextDouble(),
-                Currency = random.NextBool() ? "GBP" : "USD",
-                CallType = random.NextBool() ? CallType.Domestic : CallType.International
-            };
+            Reference = Guid.NewGuid().ToString().Replace("-", "").ToUpper(),
+            CallerId = request?.CallerId ?? Random.NextInt64().ToString(),
+            Recipient = Random.NextInt64().ToString(),
+            CallDate = callDate,
+            EndTime = callDate.AddSeconds(duration).ToString("HH:mm:ss"),
+            Duration = request?.Duration ?? duration,
+            Cost = request?.Cost ?? (decimal)Random.NextDouble(),
+            Currency = Random.NextBool() ? "GBP" : "USD",
+            CallType = Random.NextBool() ? CallType.Domestic : CallType.International
+        };
+    }
+    
+    public static IEnumerable<CallDetailRecordDto> GenerateRows(int rows, GeneratorRequest? request = null)
+    {
+        for (var i = 0; i < rows; i++)
+        {
+            yield return GenerateRow();
         }
     }
     
-    public static async Task GenerateFile(GeneratorRequest request)
+    public static async Task GenerateFile(int rows, GeneratorRequest? request = null)
     {
         var stream = new FileStream(Guid.NewGuid()+".csv", FileMode.Create);
         await using var streamWriter = new StreamWriter(stream, Encoding.UTF8, leaveOpen: true);
         await using var writer = new CsvWriter(streamWriter, CultureInfo.InvariantCulture);
         writer.Context.RegisterClassMap<CallDetailRecordCsvMap>();
-        await writer.WriteRecordsAsync(GenerateRows(request));
+        await writer.WriteRecordsAsync(GenerateRows(rows, request));
     }
     
     public static Stream GenerateStream(IEnumerable<CallDetailRecordDto> rows)

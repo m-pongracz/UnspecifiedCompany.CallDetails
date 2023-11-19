@@ -2,4 +2,4 @@
 
 var rows = int.Parse(args[0]);
 
-await CallDetailsGenerator.GenerateFile(new GeneratorRequest(rows));
+await CallDetailsGenerator.GenerateFile(rows);

@@ -2,12 +2,14 @@
 using Giacom.CallDetails.CsvGenerator;
 using Giacom.CallDetails.WebApi.Client;
 using Xunit.Abstractions;
+using CallType = Giacom.CallDetails.Domain.CallDetails.CallType;
 
 namespace Giacom.CallDetails.Tests.Integration.CallDetails;
 
 public class CallDetailsWebApiTests : IntegrationTestsBase
 {
-    public CallDetailsWebApiTests(TestingWebApplicationFactory factory, ITestOutputHelper outputHelper) : base(factory, outputHelper)
+    public CallDetailsWebApiTests(TestingWebApplicationFactory factory, ITestOutputHelper outputHelper) : base(factory,
+        outputHelper)
     {
     }
 
@@ -15,33 +17,110 @@ public class CallDetailsWebApiTests : IntegrationTestsBase
     public async Task Upload_CheckResult()
     {
         // Arrange
-        var rows = CallDetailsGenerator.GenerateRows(new GeneratorRequest(1)).ToArray();
-        
+        var rows = CallDetailsGenerator.GenerateRows(1).ToArray();
+
         // Act
         await WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows)));
 
         // Assert
         var expectedRow = rows.Single();
-        
+
         var result = await WebApiClient.CdrAsync(expectedRow.Reference);
 
         AssertCallDetailDto(result, expectedRow);
     }
-    
+
     [Fact]
     public async Task Upload_Retry()
     {
         // Arrange
-        var rows = CallDetailsGenerator.GenerateRows(new GeneratorRequest(10)).ToArray();
+        var rows = CallDetailsGenerator.GenerateRows(10).ToArray();
         await WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows.Take(3))));
-        
+
         // Act -- upload the same three rows again
         var assertTask = () => WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows)));
 
         // Assert
         await assertTask.Should().NotThrowAsync("upload retry should be allowed in case of failure");
     }
+
+    [Fact]
+    public async Task GetCallDetailCountAndDuration_ByDateOnly()
+    {
+        // Arrange
+        var rows = new[]
+        {
+            CallDetailsGenerator.GenerateRow(new(duration: 1, callDate: new DateTime(2000, 1, 1))),
+            CallDetailsGenerator.GenerateRow(new(duration: 1, callDate: new DateTime(2000, 1, 5))),
+            CallDetailsGenerator.GenerateRow(new(duration: 1, callDate: new DateTime(2000, 1, 6))),
+            CallDetailsGenerator.GenerateRow(new(duration: 1, callDate: new DateTime(2000, 1, 7))),
+            CallDetailsGenerator.GenerateRow(new(duration: 1, callDate: new DateTime(2000, 1, 30))),
+        };
+
+        await WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows)));
+
+        // Act
+        var result = await WebApiClient.CountAndDurationAsync(new DateTimeOffset(new DateTime(2000, 1, 5)),
+            new DateTimeOffset(new DateTime(2000, 1, 7)));
+
+        result.TotalDuration.Should()
+            .Be(3, "that is the sum of durations of the three records that fit into our request period");
+        result.Count.Should()
+            .Be(3, "that is the count of records that fit into our request period");
+    }
     
+    [Fact]
+    public async Task GetCallDetailCountAndDuration_ByCallType()
+    {
+        // Arrange
+        var rows = new[]
+        {
+            CallDetailsGenerator.GenerateRow(new(duration: 1, callDate: new DateTime(2000, 1, 1), callType: CallType.International)),
+            CallDetailsGenerator.GenerateRow(new(duration: 1, callDate: new DateTime(2000, 1, 1), callType: CallType.Domestic)),
+            CallDetailsGenerator.GenerateRow(new(duration: 1, callDate: new DateTime(2000, 1, 1), callType: CallType.Domestic)),
+        };
+
+        await WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows)));
+
+        // Act
+        var result = await WebApiClient.CountAndDurationAsync(new DateTimeOffset(new DateTime(2000, 1, 1)),
+            new DateTimeOffset(new DateTime(2000, 1, 1)), WebApi.Client.CallType._1);
+
+        result.TotalDuration.Should().Be(2, "that is the sum of durations of domestic records");
+        result.Count.Should().Be(3, "that is the count of domestic records");
+    }
+
+    
+    [Fact]
+    public async Task GetCallDetailCountAndDuration_PeriodValidation()
+    {
+        // Arrange
+        var rows = CallDetailsGenerator.GenerateRows(10).ToArray();
+        await WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows.Take(3))));
+
+        // Act -- upload the same three rows again
+        var assertTask = () => WebApiClient.CountAndDurationAsync(new DateTimeOffset(new DateTime(2000, 1, 1)),
+            new DateTimeOffset(new DateTime(2000, 2, 1)));
+
+        // Assert
+        await assertTask.Should().ThrowAsync<ApiException>("period is larger than 30 days"); // TODO status code should be asserted instead
+    }   
+    
+    [Fact]
+    public async Task GetCallDetailCountAndDuration_NegativePeriodValidation()
+    {
+        // Arrange
+        var rows = CallDetailsGenerator.GenerateRows(10).ToArray();
+        await WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows.Take(3))));
+
+        // Act -- upload the same three rows again
+        var assertTask = () => WebApiClient.CountAndDurationAsync(new DateTimeOffset(new DateTime(2000, 1, 2)),
+            new DateTimeOffset(new DateTime(2000, 1, 1)));
+
+        // Assert
+        await assertTask.Should().ThrowAsync<ApiException>("period is negative"); // TODO status code should be asserted instead
+    }
+
     private static void AssertCallDetailDto(CallDetailRecordDto asserted, WebApi.Dtos.CallDetailRecordDto expected)
     {
         DateOnly.FromDateTime(asserted.CallDate.DateTime).Should().Be(DateOnly.FromDateTime(expected.CallDate));
