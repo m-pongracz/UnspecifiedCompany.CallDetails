@@ -23,8 +23,9 @@ public class CallDetailRepository : EfRepositoryBase<string, CallDetail>, ICallD
             // ReSharper disable once PossibleMultipleEnumeration
             batch = records.Take(batchSize).Select(getCallDetail).ToArray();   
 
-            // TODO think about retry on failure
-            await DbContext.BulkInsertAsync(batch);
+            // OrUpdate ensures that the batch wont fail if the record already exists in the database which will
+            // be helpful in case the same file has to be processed multiple times (e.g. in case of a failure)
+            await DbContext.BulkInsertOrUpdateAsync(batch);
 
             if (batch.Length < batchSize)
             {

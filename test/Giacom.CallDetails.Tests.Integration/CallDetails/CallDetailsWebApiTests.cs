@@ -27,8 +27,20 @@ public class CallDetailsWebApiTests : IntegrationTestsBase
 
         AssertCallDetailDto(result, expectedRow);
     }
+    
+    [Fact]
+    public async Task Upload_Retry()
+    {
+        // Arrange
+        var rows = CallDetailsGenerator.GenerateRows(new GeneratorRequest(10)).ToArray();
+        await WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows.Take(3))));
+        
+        // Act -- upload the same three rows again
+        var assertTask = () => WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows)));
 
-    // TODO upload retry test
+        // Assert
+        await assertTask.Should().NotThrowAsync("upload retry should be allowed in case of failure");
+    }
     
     private static void AssertCallDetailDto(CallDetailRecordDto asserted, WebApi.Dtos.CallDetailRecordDto expected)
     {
