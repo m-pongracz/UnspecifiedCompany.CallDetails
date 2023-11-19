@@ -6,6 +6,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6D44F1C5-6DE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D4E18E36-6158-41E0-AFDC-C3185D663A78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.Domain", "src\Giacom.CallDetails.Domain\Giacom.CallDetails.Domain.csproj", "{414F0A58-85D6-4EF7-98CA-086DAB41314E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.Persistence", "src\Giacom.CallDetails.Persistence\Giacom.CallDetails.Persistence.csproj", "{33AB8AE6-63A5-4E90-9BF5-D3279548B57F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.Persistence.Migrations", "src\Giacom.CallDetails.Persistence.Migrations\Giacom.CallDetails.Persistence.Migrations.csproj", "{293DB01A-DB4C-4766-A84A-6817C5645884}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.Application", "src\Giacom.CallDetails.Application\Giacom.CallDetails.Application.csproj", "{449C4B86-F6A2-4AF2-B50B-F9F2C591A08B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.Tests.Integration", "test\Giacom.CallDetails.Tests.Integration\Giacom.CallDetails.Tests.Integration.csproj", "{FAC77CC3-F17A-4046-A99F-0D07AB60F24E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,8 +26,33 @@ Global
 		{093CE170-42BB-461D-AF26-0205C06469B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{093CE170-42BB-461D-AF26-0205C06469B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{093CE170-42BB-461D-AF26-0205C06469B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{414F0A58-85D6-4EF7-98CA-086DAB41314E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{414F0A58-85D6-4EF7-98CA-086DAB41314E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{414F0A58-85D6-4EF7-98CA-086DAB41314E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{414F0A58-85D6-4EF7-98CA-086DAB41314E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33AB8AE6-63A5-4E90-9BF5-D3279548B57F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33AB8AE6-63A5-4E90-9BF5-D3279548B57F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33AB8AE6-63A5-4E90-9BF5-D3279548B57F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33AB8AE6-63A5-4E90-9BF5-D3279548B57F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{293DB01A-DB4C-4766-A84A-6817C5645884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{293DB01A-DB4C-4766-A84A-6817C5645884}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{293DB01A-DB4C-4766-A84A-6817C5645884}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{293DB01A-DB4C-4766-A84A-6817C5645884}.Release|Any CPU.Build.0 = Release|Any CPU
+		{449C4B86-F6A2-4AF2-B50B-F9F2C591A08B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{449C4B86-F6A2-4AF2-B50B-F9F2C591A08B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{449C4B86-F6A2-4AF2-B50B-F9F2C591A08B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{449C4B86-F6A2-4AF2-B50B-F9F2C591A08B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAC77CC3-F17A-4046-A99F-0D07AB60F24E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAC77CC3-F17A-4046-A99F-0D07AB60F24E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAC77CC3-F17A-4046-A99F-0D07AB60F24E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAC77CC3-F17A-4046-A99F-0D07AB60F24E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{093CE170-42BB-461D-AF26-0205C06469B6} = {6D44F1C5-6DEE-426E-912C-CED377E53831}
+		{414F0A58-85D6-4EF7-98CA-086DAB41314E} = {6D44F1C5-6DEE-426E-912C-CED377E53831}
+		{33AB8AE6-63A5-4E90-9BF5-D3279548B57F} = {6D44F1C5-6DEE-426E-912C-CED377E53831}
+		{293DB01A-DB4C-4766-A84A-6817C5645884} = {6D44F1C5-6DEE-426E-912C-CED377E53831}
+		{449C4B86-F6A2-4AF2-B50B-F9F2C591A08B} = {6D44F1C5-6DEE-426E-912C-CED377E53831}
+		{FAC77CC3-F17A-4046-A99F-0D07AB60F24E} = {D4E18E36-6158-41E0-AFDC-C3185D663A78}
 	EndGlobalSection
 EndGlobal
