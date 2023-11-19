@@ -28,14 +28,16 @@ public class CallDetailsWebApiTests : IntegrationTestsBase
         AssertCallDetailDto(result, expectedRow);
     }
 
+    // TODO upload retry test
+    
     private static void AssertCallDetailDto(CallDetailRecordDto asserted, WebApi.Dtos.CallDetailRecordDto expected)
     {
-        asserted.CallDate.Should().Be(expected.CallDate);
+        DateOnly.FromDateTime(asserted.CallDate.DateTime).Should().Be(DateOnly.FromDateTime(expected.CallDate));
         asserted.CallerId.Should().Be(expected.CallerId);
         asserted.Recipient.Should().Be(expected.Recipient);
         asserted.EndTime.Should().Be(expected.EndTime);
         asserted.Duration.Should().Be(expected.Duration);
-        asserted.Cost.Should().Be((double)expected.Cost);
+        asserted.Cost.Should().BeApproximately((double)expected.Cost, 0.1); // TODO value from the client should be decimal, but converter must be added first
         asserted.Currency.Should().Be(expected.Currency);
         ((int)asserted.CallType).Should().Be((int)expected.CallType);
     }

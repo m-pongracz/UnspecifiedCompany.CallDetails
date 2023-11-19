@@ -1,6 +1,6 @@
-﻿using System.ComponentModel;
-using Giacom.CallDetails.Domain.CallDetails;
+﻿using Giacom.CallDetails.Domain.CallDetails;
 using Giacom.CallDetails.Persistence.Configurations;
+using Giacom.CallDetails.Persistence.Converters;
 using Microsoft.EntityFrameworkCore;
 
 namespace Giacom.CallDetails.Persistence;
