@@ -31,6 +31,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\Giacom.CallDetails.Persistence\Giacom.CallDetails.Persistence.csproj" />
       <ProjectReference Include="..\..\src\Giacom.CallDetails.WebApi\Giacom.CallDetails.WebApi.csproj" />
+      <ProjectReference Include="..\Giacom.CallDetails.CsvGenerator\Giacom.CallDetails.CsvGenerator.csproj" />
       <ProjectReference Include="..\Giacom.CallDetails.WebApi.Client\Giacom.CallDetails.WebApi.Client.csproj" />
     </ItemGroup>
 

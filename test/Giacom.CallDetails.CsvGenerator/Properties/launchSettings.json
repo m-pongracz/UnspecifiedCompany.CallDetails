@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "CsvGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "100"
+    }
+  }
+}

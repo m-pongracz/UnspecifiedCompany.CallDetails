@@ -9,6 +9,7 @@ public abstract class IntegrationTestsBase : IAssemblyFixture<TestingWebApplicat
 {
     private readonly TestingWebApplicationFactory _factory;
     private readonly ITestOutputHelper _outputHelper;
+    protected readonly CallDetailsClient WebApiClient;
 
     protected readonly IServiceScope Scope;
 
@@ -17,6 +18,7 @@ public abstract class IntegrationTestsBase : IAssemblyFixture<TestingWebApplicat
         _factory = factory;
         _outputHelper = outputHelper;
         Scope = factory.CreateScope();
+        WebApiClient = GetWebApiClient();
     }
     
     protected TService GetRequiredService<TService>() where TService : notnull
@@ -24,7 +26,7 @@ public abstract class IntegrationTestsBase : IAssemblyFixture<TestingWebApplicat
         return Scope.ServiceProvider.GetRequiredService<TService>();
     }
 
-    protected CallDetailsClient GetWebApiClient()
+    private CallDetailsClient GetWebApiClient()
     {
         return new CallDetailsClient(_factory.CreateClient());
     }

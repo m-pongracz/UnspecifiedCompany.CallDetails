@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.Tests.In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.WebApi.Client", "test\Giacom.CallDetails.WebApi.Client\Giacom.CallDetails.WebApi.Client.csproj", "{2A2F5C83-0BC6-4437-8088-DC8EDD1CF0EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.CsvGenerator", "test\Giacom.CallDetails.CsvGenerator\Giacom.CallDetails.CsvGenerator.csproj", "{1597F3F6-DB6E-4271-8A03-850A990333AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{2A2F5C83-0BC6-4437-8088-DC8EDD1CF0EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A2F5C83-0BC6-4437-8088-DC8EDD1CF0EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2A2F5C83-0BC6-4437-8088-DC8EDD1CF0EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1597F3F6-DB6E-4271-8A03-850A990333AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1597F3F6-DB6E-4271-8A03-850A990333AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1597F3F6-DB6E-4271-8A03-850A990333AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1597F3F6-DB6E-4271-8A03-850A990333AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{093CE170-42BB-461D-AF26-0205C06469B6} = {6D44F1C5-6DEE-426E-912C-CED377E53831}
@@ -61,5 +67,6 @@ Global
 		{449C4B86-F6A2-4AF2-B50B-F9F2C591A08B} = {6D44F1C5-6DEE-426E-912C-CED377E53831}
 		{FAC77CC3-F17A-4046-A99F-0D07AB60F24E} = {D4E18E36-6158-41E0-AFDC-C3185D663A78}
 		{2A2F5C83-0BC6-4437-8088-DC8EDD1CF0EB} = {D4E18E36-6158-41E0-AFDC-C3185D663A78}
+		{1597F3F6-DB6E-4271-8A03-850A990333AE} = {D4E18E36-6158-41E0-AFDC-C3185D663A78}
 	EndGlobalSection
 EndGlobal
