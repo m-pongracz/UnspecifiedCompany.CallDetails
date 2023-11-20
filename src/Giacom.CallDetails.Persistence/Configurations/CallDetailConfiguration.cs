@@ -12,7 +12,7 @@ public class CallDetailConfiguration : IEntityTypeConfiguration<CallDetail>
     {
         builder.HasKey(x => x.CallDetailId);
         builder.Property(x => x.CallDetailId).ValueGeneratedNever();
-        builder.Property(x => x.Cost).HasPrecision(3);
+        builder.Property(x => x.Cost).HasPrecision(4);
         builder.Property(x => x.CallDetailId).HasMaxLength(50);
         builder.Property(x => x.Currency).HasMaxLength(3);
         builder.Property(x => x.Recipient).HasMaxLength(PhoneNumberMaxLength);

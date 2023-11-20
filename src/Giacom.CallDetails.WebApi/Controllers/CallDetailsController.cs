@@ -60,4 +60,13 @@ public class CallDetailsController : ControllerBase
 
         return Ok(new PagedResultDto<CallDetail, CallDetailRecordDto>(pagedResult, x => new CallDetailRecordDto(x)));
     }
+    
+    [HttpGet]
+    [Route("caller/{callerId}/most-expensive")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public Task<ActionResult<IEnumerable<CallDetailRecordDto>>> GetMostExpensive([FromRoute] string callerId,
+        [FromQuery] DateTime from, [FromQuery] DateTime to, [FromQuery] CallType? type, [FromQuery] int count)
+    {
+        throw new NotImplementedException();
+    }
 }

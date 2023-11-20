@@ -23,8 +23,8 @@ public static class CallDetailsGenerator
             CallDate = callDate,
             EndTime = callDate.AddSeconds(duration).ToString("HH:mm:ss"),
             Duration = request?.Duration ?? duration,
-            Cost = request?.Cost ?? (decimal)Random.NextDouble(),
-            Currency = Random.NextBool() ? "GBP" : "USD",
+            Cost = (decimal)(request?.Cost ?? Random.NextDouble()),
+            Currency = request?.Currency ?? (Random.NextBool() ? "GBP" : "USD"),
             CallType = request?.CallType ?? (Random.NextBool() ? CallType.Domestic : CallType.International)
         };
     }

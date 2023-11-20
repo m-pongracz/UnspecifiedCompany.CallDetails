@@ -154,6 +154,40 @@ public class CallDetailsWebApiTests : IntegrationTestsBase
         page2.Data.Should().AllSatisfy(x => x.CallerId.Should().Be(callerId));
         page2.Data.Select(x => x.Reference).Should().NotIntersectWith(page1.Data.Select(x => x.Reference));
     }
+    
+    // TODO get all for caller by type test
+    
+    [Fact]
+    public async Task GetMostExpensive()
+    {
+        // Arrange
+        const string callerId = "1";
+
+        var callDate = new DateTime(2000, 1, 1);
+        
+        var rows = new[]
+        {
+            CallDetailsGenerator.GenerateRow(new(callerId: "2", cost: 10.0, callDate: new DateTime(2000, 1, 1), currency: "GBP")),
+            CallDetailsGenerator.GenerateRow(new(callerId: callerId, cost: 5.0, callDate: new DateTime(2000, 1, 1), currency: "USD")),
+            CallDetailsGenerator.GenerateRow(new(callerId: callerId, cost: 1.0, callDate: new DateTime(2000, 1, 1), currency: "GBP")),
+            CallDetailsGenerator.GenerateRow(new(callerId: callerId, cost: 2.0, callDate: new DateTime(2000, 1, 1), currency: "GBP")),
+            CallDetailsGenerator.GenerateRow(new(callerId: callerId, cost: 3.0, callDate: new DateTime(2000, 1, 1), currency: "GBP")),
+        };
+        
+        await WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows)));
+
+        // Act
+        var res = (await WebApiClient.MostExpensiveAsync(callerId, new DateTimeOffset(callDate),
+            new DateTimeOffset(callDate), count: 2)).ToArray();
+
+        // Assert
+        res.Should().HaveCount(2);
+        res.Should().AllSatisfy(x => x.CallerId.Should().Be(callerId));
+        res.Should().AllSatisfy(x => x.Currency.Should().Be("GBP", "we have default filter only for GBP as per specification"));
+        res.Select(x => x.Cost).Should().BeEquivalentTo(new[] { 3, 2 });
+    }
+    
+    // TODO get most expensive by type test
 
     private static void AssertCallDetailDto(CallDetailRecordDto asserted, WebApi.Dtos.CallDetailRecordDto expected)
     {
