@@ -47,4 +47,13 @@ public class CallDetailsController : ControllerBase
                 DateOnly.FromDateTime(to), type);
         return Ok(new CallDetailCountAndDurationDto(countAndDuration));
     }
+    
+    [HttpGet]
+    [Route("caller/{callerId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public Task<ActionResult<PagedResultDto<CallDetail, CallDetailRecordDto>>> GetAllForCaller([FromRoute] string callerId,
+        [FromQuery] DateTime from, [FromQuery] DateTime to, [FromQuery] CallType? type, [FromQuery] PagingRequestDto pagingRequest)
+    {
+        throw new NotImplementedException();
+    }
 }

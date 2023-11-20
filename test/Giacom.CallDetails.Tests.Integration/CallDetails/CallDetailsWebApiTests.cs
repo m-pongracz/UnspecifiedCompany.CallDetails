@@ -120,6 +120,39 @@ public class CallDetailsWebApiTests : IntegrationTestsBase
 
         // Assert
         await assertTask.Should().ThrowAsync<ValidationException>("period is negative"); // TODO status code should be asserted instead
+    }    
+    
+    [Fact]
+    public async Task GetAllForCaller()
+    {
+        // Arrange
+        const string callerId = "1";
+
+        var callDate = new DateTime(2000, 1, 1);
+        
+        var rows = CallDetailsGenerator.GenerateRows(10, new GeneratorRequest(callerId: callerId, callDate: callDate))
+            .Union(CallDetailsGenerator.GenerateRows(10, new GeneratorRequest(callerId: "2", callDate: callDate))).ToArray();
+        
+        await WebApiClient.UploadAsync(new FileParameter(CallDetailsGenerator.GenerateStream(rows)));
+
+        // Act 1
+        var page1 = await WebApiClient.CallerAsync(callerId, new DateTimeOffset(callDate), new DateTimeOffset(callDate), pageNumber: 1, pageSize: 7);
+
+        // Assert 1
+        page1.PageNumber.Should().Be(1);
+        page1.PageSize.Should().Be(7);
+        page1.Data.Should().HaveCount(7);
+        page1.Data.Should().AllSatisfy(x => x.CallerId.Should().Be(callerId));
+        
+        // Act 1
+        var page2 = await WebApiClient.CallerAsync(callerId, new DateTimeOffset(callDate), new DateTimeOffset(callDate), pageNumber: 2, pageSize: 7);
+
+        // Assert 1
+        page2.PageNumber.Should().Be(2);
+        page2.PageSize.Should().Be(7);
+        page2.Data.Should().HaveCount(3);
+        page2.Data.Should().AllSatisfy(x => x.CallerId.Should().Be(callerId));
+        page2.Data.Select(x => x.Reference).Should().NotIntersectWith(page1.Data.Select(x => x.Reference));
     }
 
     private static void AssertCallDetailDto(CallDetailRecordDto asserted, WebApi.Dtos.CallDetailRecordDto expected)
