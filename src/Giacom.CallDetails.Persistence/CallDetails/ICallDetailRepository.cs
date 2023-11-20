@@ -12,4 +12,7 @@ public interface ICallDetailRepository
     Task<CallDetail?> FindAsync(string reference);
     
     Task<PagedResult<CallDetail>> GetAllForCallerAsync(PagingRequest paging, string callerId, DateOnly from, DateOnly to, CallType? type);
+    
+    Task<IEnumerable<CallDetail>> GetMostExpensiveForCallerAsync(string callerId, DateOnly from,
+        DateOnly to, CallType? type, string currency, int count);
 }

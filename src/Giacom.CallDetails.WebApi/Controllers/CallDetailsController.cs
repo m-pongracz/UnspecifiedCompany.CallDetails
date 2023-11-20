@@ -64,9 +64,12 @@ public class CallDetailsController : ControllerBase
     [HttpGet]
     [Route("caller/{callerId}/most-expensive")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public Task<ActionResult<IEnumerable<CallDetailRecordDto>>> GetMostExpensive([FromRoute] string callerId,
+    public async Task<ActionResult<IEnumerable<CallDetailRecordDto>>> GetMostExpensive([FromRoute] string callerId,
         [FromQuery] DateTime from, [FromQuery] DateTime to, [FromQuery] CallType? type, [FromQuery] int count)
     {
-        throw new NotImplementedException();
+            var result =
+                await _callDetailService.GetMostExpensiveForCallerAsync(callerId, DateOnly.FromDateTime(from), DateOnly.FromDateTime(to), type, count);
+
+            return Ok(result.Select(x => new CallDetailRecordDto(x)));
     }
 }

@@ -18,5 +18,7 @@ public class CallDetailConfiguration : IEntityTypeConfiguration<CallDetail>
         builder.Property(x => x.Recipient).HasMaxLength(PhoneNumberMaxLength);
         builder.Property(x => x.CallerId).HasMaxLength(PhoneNumberMaxLength);
         builder.Property(x => x.EndTime).HasMaxLength(8);
+        
+        builder.HasIndex(x => new { x.CallerId, x.CallDate, x.CallType });
     }
 }

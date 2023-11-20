@@ -54,16 +54,30 @@ public class CallDetailRepository : EfRepositoryBase<string, CallDetail>, ICallD
 
         return new CountAndDurationResult(res.Count, res.Duration);
     }
-    
+
     public async Task<PagedResult<CallDetail>> GetAllForCallerAsync(PagingRequest paging, string callerId, DateOnly from, 
         DateOnly to, CallType? type)
     {
-        var query = Entities.Where(new AllForCallerIdQuery(callerId, type, from, to, null).Create());
+        var query = GetAllForCallerInPeriodWithOptionalType(callerId, from, to, type, null);
 
         var (skip, take) = paging.GetSkipAndTake();
 
         query = query.Skip(skip).Take(take);
         
         return new PagedResult<CallDetail>(paging, await query.ToArrayAsync());
+    }
+    
+    public async Task<IEnumerable<CallDetail>> GetMostExpensiveForCallerAsync(string callerId, DateOnly from, 
+        DateOnly to, CallType? type, string currency, int count)
+    {
+        return await GetAllForCallerInPeriodWithOptionalType(callerId, from, to, type, currency)
+            .OrderByDescending(x => x.Cost)
+            .Take(count)
+            .ToArrayAsync();
+    }
+
+    private IQueryable<CallDetail> GetAllForCallerInPeriodWithOptionalType(string callerId, DateOnly from, DateOnly to, CallType? type, string? currency)
+    {
+        return Entities.Where(new AllForCallerIdQuery(callerId, type, from, to, currency).Create());
     }
 }

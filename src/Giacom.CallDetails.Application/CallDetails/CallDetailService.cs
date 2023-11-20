@@ -51,4 +51,9 @@ public class CallDetailService : ICallDetailService
     {
         return _callDetailRepository.GetAllForCallerAsync(paging, callerId, from, to, type);
     }
+    
+    public Task<IEnumerable<CallDetail>> GetMostExpensiveForCallerAsync(string callerId, DateOnly from, DateOnly to, CallType? type, int count)
+    {
+        return _callDetailRepository.GetMostExpensiveForCallerAsync(callerId, from, to, type, "GBP", count);
+    }
 }
