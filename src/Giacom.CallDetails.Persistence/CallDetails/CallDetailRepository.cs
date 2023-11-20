@@ -1,6 +1,7 @@
 ﻿using Giacom.CallDetails.Domain.CallDetails;
 using Microsoft.EntityFrameworkCore;
 using EFCore.BulkExtensions;
+using Giacom.CallDetails.Domain;
 using Giacom.CallDetails.Domain.CallDetails.Queries;
 
 namespace Giacom.CallDetails.Persistence.CallDetails;
@@ -52,5 +53,17 @@ public class CallDetailRepository : EfRepositoryBase<string, CallDetail>, ICallD
             .SingleAsync();
 
         return new CountAndDurationResult(res.Count, res.Duration);
+    }
+    
+    public async Task<PagedResult<CallDetail>> GetAllForCallerAsync(PagingRequest paging, string callerId, DateOnly from, 
+        DateOnly to, CallType? type)
+    {
+        var query = Entities.Where(new AllForCallerIdQuery(callerId, type, from, to, null).Create());
+
+        var (skip, take) = paging.GetSkipAndTake();
+
+        query = query.Skip(skip).Take(take);
+        
+        return new PagedResult<CallDetail>(paging, await query.ToArrayAsync());
     }
 }

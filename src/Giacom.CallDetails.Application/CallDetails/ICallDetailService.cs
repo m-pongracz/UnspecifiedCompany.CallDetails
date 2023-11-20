@@ -1,3 +1,4 @@
+using Giacom.CallDetails.Domain;
 using Giacom.CallDetails.Domain.CallDetails;
 
 namespace Giacom.CallDetails.Application.CallDetails;
@@ -11,4 +12,7 @@ public interface ICallDetailService
     Task<CallDetail> FindAsync(string reference);
     
     Task<CountAndDurationResult> GetCountAndDurationAsync(DateOnly from, DateOnly to, CallType? type);
+    
+    Task<PagedResult<CallDetail>> GetAllForCallerAsync(PagingRequest paging, string callerId,
+        DateOnly from, DateOnly to, CallType? type);
 }

@@ -33,7 +33,7 @@ public static class CallDetailsGenerator
     {
         for (var i = 0; i < rows; i++)
         {
-            yield return GenerateRow();
+            yield return GenerateRow(request);
         }
     }
     

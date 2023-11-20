@@ -51,9 +51,13 @@ public class CallDetailsController : ControllerBase
     [HttpGet]
     [Route("caller/{callerId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public Task<ActionResult<PagedResultDto<CallDetail, CallDetailRecordDto>>> GetAllForCaller([FromRoute] string callerId,
+    public async Task<ActionResult<PagedResultDto<CallDetail, CallDetailRecordDto>>> GetAllForCaller([FromRoute] string callerId,
         [FromQuery] DateTime from, [FromQuery] DateTime to, [FromQuery] CallType? type, [FromQuery] PagingRequestDto pagingRequest)
     {
-        throw new NotImplementedException();
+        var pagedResult =
+            await _callDetailService.GetAllForCallerAsync(pagingRequest.GetPagingRequest(),
+                callerId, DateOnly.FromDateTime(from), DateOnly.FromDateTime(to), type);
+
+        return Ok(new PagedResultDto<CallDetail, CallDetailRecordDto>(pagedResult, x => new CallDetailRecordDto(x)));
     }
 }

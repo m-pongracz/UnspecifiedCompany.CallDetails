@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using CsvHelper;
 using Giacom.CallDetails.Application.Exceptions;
+using Giacom.CallDetails.Domain;
 using Giacom.CallDetails.Domain.CallDetails;
 using Giacom.CallDetails.Persistence.CallDetails;
 
@@ -43,5 +44,11 @@ public class CallDetailService : ICallDetailService
     public Task<CountAndDurationResult> GetCountAndDurationAsync(DateOnly from, DateOnly to, CallType? type)
     {
         return _callDetailRepository.GetCountAndDurationAsync(from, to, type);
+    }
+    
+    public Task<PagedResult<CallDetail>> GetAllForCallerAsync(PagingRequest paging, string callerId, DateOnly from, DateOnly to,
+        CallType? type)
+    {
+        return _callDetailRepository.GetAllForCallerAsync(paging, callerId, from, to, type);
     }
 }
