@@ -16,7 +16,10 @@ public class Startup
     {
         services.AddControllers();
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
+        services.AddSwaggerGen(x =>
+        {
+            x.IncludeXmlComments("Giacom.CallDetails.WebApi.xml");
+        });
         
         services.AddPersistence(_configuration);
         services.AddApplicationServices();

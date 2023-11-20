@@ -20,6 +20,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.WebApi.C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Giacom.CallDetails.CsvGenerator", "test\Giacom.CallDetails.CsvGenerator\Giacom.CallDetails.CsvGenerator.csproj", "{1597F3F6-DB6E-4271-8A03-850A990333AE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{EB7C098D-B2C6-4EF5-81AD-322E6AD662CF}"
+	ProjectSection(SolutionItems) = preProject
+		tools\local-compose.yml = tools\local-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

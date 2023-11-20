@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Giacom.CallDetails.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:Giacom.CallDetails.WebApi.Controllers.CallDetailsController.GetByReference(System.String)">
+            <summary>
+            Gets a single CDR by its reference
+            </summary>
+            <param name="reference">Unique reference for the call</param>
+            <response code="200">CDR DTO</response>
+            <response code="404">When CDR was not found</response>
+        </member>
+        <member name="T:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto">
+            <summary>
+            CDR DTO
+            </summary>
+        </member>
+        <member name="P:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto.CallerId">
+            <summary>
+            Phone number of the caller
+            </summary>
+        </member>
+        <member name="P:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto.Recipient">
+            <summary>
+            Phone number of the recipient
+            </summary>
+        </member>
+        <member name="P:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto.CallDate">
+            <summary>
+            Date on which the call was made
+            </summary>
+        </member>
+        <member name="P:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto.EndTime">
+            <summary>
+            Time when the call ended
+            </summary>
+        </member>
+        <member name="P:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto.Duration">
+            <summary>
+            Duration of the call in seconds
+            </summary>
+        </member>
+        <member name="P:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto.Cost">
+            <summary>
+            The billable cost of the call -- to 3 decimal places (decipence)
+            </summary>
+        </member>
+        <member name="P:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto.Reference">
+            <summary>
+            Unique reference for the call
+            </summary>
+        </member>
+        <member name="P:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto.Currency">
+            <summary>
+            Currency for the cost -- ISO alpha-3
+            </summary>
+        </member>
+        <member name="P:Giacom.CallDetails.WebApi.Dtos.CallDetailRecordDto.CallType">
+            <summary>
+            Call Type, 1 = Domestic, 2 = International
+            </summary>
+        </member>
+    </members>
+</doc>

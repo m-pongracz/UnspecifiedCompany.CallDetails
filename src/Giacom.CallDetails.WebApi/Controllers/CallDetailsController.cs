@@ -27,6 +27,12 @@ public class CallDetailsController : ControllerBase
         return Ok();
     }
 
+    /// <summary>
+    /// Gets a single CDR by its reference
+    /// </summary>
+    /// <param name="reference">Unique reference for the call</param>
+    /// <response code="200">CDR DTO</response>
+    /// <response code="404">When CDR was not found</response>
     [HttpGet]
     [Route("{reference}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
